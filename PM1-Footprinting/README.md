@@ -201,7 +201,7 @@ The knowledge gained through these exercises provides a foundation for reconnais
 
 **Harini Madasu**
 
-B.Tech Mathematics and Computing
+B.Tech Mathematics and Computing Student
 
 [LinkedIn Profile](https://www.linkedin.com/)
 
