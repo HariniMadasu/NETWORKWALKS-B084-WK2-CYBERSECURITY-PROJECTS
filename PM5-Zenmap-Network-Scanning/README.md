@@ -4,13 +4,11 @@
 
 ## 🔹 Overview
 
-This project focuses on practical network scanning and analysis using Nmap and its graphical interface, Zenmap, in Kali Linux.
+This project focuses on practical network scanning and analysis using **Nmap and Zenmap** on a Windows system.
 
-The exercises explore host discovery, TCP port scanning, service version detection, and operating system identification.
+The exercises explore host discovery, TCP port scanning, service version detection, operating system detection, and scan result analysis.
 
-The scans were performed against the local machine using the loopback address `127.0.0.1` to understand fundamental network scanning techniques in a controlled environment.
-
----
+The practical scans were performed against the local machine using the loopback address `127.0.0.1` in a controlled environment.
 
 ## 🔹 Objectives
 
@@ -18,197 +16,207 @@ The scans were performed against the local machine using the loopback address `1
 - Explore the Zenmap graphical interface.
 - Identify whether a host is reachable.
 - Examine TCP port states.
-- Understand service version detection.
+- Perform service version detection.
 - Explore operating system fingerprinting.
+- Identify local network configuration and MAC address.
 - Save and analyze Nmap scan results.
-
----
+- Visualize the scan topology.
 
 ## 🔹 Tools and Technologies
 
 | Tool | Purpose |
 |---|---|
-| Kali Linux | Cybersecurity testing environment |
-| Nmap 7.99 | Network discovery and scanning |
+| Windows | Practical testing environment |
+| Nmap 7.99 | Network scanning and analysis |
 | Zenmap 7.99 | Graphical interface for Nmap |
+| Command Prompt | Network configuration and MAC address identification |
 
-**Target:** `127.0.0.1` (Localhost)
-
----
+**Scan Target:** `127.0.0.1` (Localhost)
 
 ## 🔹 Practical Exercises
 
-### 01. Zenmap Interface Exploration
+### 01. Zenmap Installation and Interface Exploration
 
-**Objective:** Explore the Zenmap graphical interface and available scanning profiles.
+**Objective:** Install Zenmap and explore its graphical interface and scanning profiles.
 
 **Key Activities:**
-- Opened the Zenmap application.
-- Explored the target field and profile selection.
-- Examined scan command and output sections.
-- Identified Ping Scan, Regular Scan, Quick Scan, and Custom Scan profiles.
+- Installed and opened Zenmap on Windows.
+- Explored the target field and scan profile selection.
+- Examined the scan command and output sections.
+- Explored available scanning profiles.
 
 **Screenshot:**
 
-![Zenmap Interface](Screenshots/Zenmap-Interface.png)
+![Zenmap Interface](Screenshots/Zenmap_interface.png)
 
----
+### 02. Windows IP Configuration
 
-### 02. Ping Scan – Host Discovery
+**Objective:** Identify the system's network configuration.
+
+**Key Activities:**
+- Used `ipconfig` to examine network interfaces.
+- Identified the active Wi-Fi IPv4 address.
+- Examined the subnet mask and default gateway.
+- Identified the VirtualBox Host-Only network adapter.
+
+**Screenshot:**
+
+![Windows IP Configuration](Screenshots/Window_IP_Configuration.png)
+
+### 03. Ping Scan – Host Discovery
 
 **Objective:** Check whether the local host is active and reachable.
 
 **Command:**
+
 ```bash
 nmap -sn 127.0.0.1
 ```
 
 **Observation:**
 
-The scan successfully identified the local host as up.
+The scan successfully identified the local machine as up.
 
 **Screenshot:**
 
-![Ping Scan](Screenshots/Ping-Scan.png)
+![Ping Scan](Screenshots/Ping_Scan.png)
 
----
+### 04. MAC Address Identification
 
-### 03. Regular Scan – TCP Port Scanning
-
-**Objective:** Examine commonly used TCP ports on the local machine.
+**Objective:** Identify the MAC addresses of the system's network adapters.
 
 **Command:**
-```bash
-nmap 127.0.0.1
+
+```cmd
+getmac /v
 ```
 
 **Key Activities:**
-- Scanned the default 1,000 most common TCP ports.
-- Examined port states.
-- Observed whether services were listening on the scanned ports.
-
-**Observation:**
-
-The scan reported 1,000 closed TCP ports, indicating that no services were listening on those scanned ports at the time of testing.
+- Examined the available network adapters.
+- Identified the physical address associated with the active Wi-Fi adapter.
+- Observed the VirtualBox Host-Only adapter's MAC address.
 
 **Screenshot:**
 
-![Regular Scan](Screenshots/Regular-Scan.png)
+![MAC Address](Screenshots/MAC_Address.png)
 
----
+*Note: These are the local system's adapter addresses, not MAC addresses discovered from other LAN hosts.*
 
-### 04. Quick Scan
+### 05. Service Version Detection
 
-**Objective:** Explore Zenmap's Quick Scan profile and its scanning configuration.
-
-**Key Activities:**
-- Examined the Quick Scan profile.
-- Observed the Nmap command associated with the profile.
-- Reviewed the scan output, if executed.
-
-**Screenshot:**
-
-![Quick Scan](Screenshots/Quick-Scan.png)
-
----
-
-### 05. Custom Scan – Service Version Detection
-
-**Objective:** Identify services and their version information on open ports.
+**Objective:** Identify services and their version information on open TCP ports.
 
 **Command:**
+
 ```bash
 nmap -sV 127.0.0.1
 ```
 
-**Key Activities:**
-- Used the `-sV` option for service version detection.
-- Examined port states and service information.
-- Explored how Nmap identifies services running on open ports.
+**Observation:**
+
+The scan identified the following open TCP ports and services:
+
+| Port | Service | Detected Version |
+|---|---|---|
+| 80/tcp | HTTP | Microsoft IIS httpd 10.0 |
+| 135/tcp | MSRPC | Microsoft Windows RPC |
+| 445/tcp | Microsoft-DS | Version not identified |
+| 843/tcp | Unknown | Version not identified |
+| 3306/tcp | MySQL | MySQL 8.0.43 |
+| 5432/tcp | PostgreSQL | PostgreSQL DB |
+
+The scan also reported 994 closed TCP ports.
 
 **Screenshot:**
 
-![Service Version Detection](Screenshots/Custom-Service-Detection.png)
-
----
+![Service Detection](Screenshots/Service_Detection.png)
 
 ### 06. Operating System Detection
 
 **Objective:** Explore operating system fingerprinting using Nmap.
 
 **Command:**
+
 ```bash
-sudo nmap -O 127.0.0.1
+nmap -O 127.0.0.1
 ```
 
 **Key Activities:**
-- Enabled OS detection using the `-O` option.
-- Examined the host status and TCP port information.
-- Observed the OS detection output.
+- Used the `-O` option to enable OS detection.
+- Examined the host status and port information.
+- Explored Nmap's operating system fingerprinting capability.
 
-**Observation:**
-
-The scan reported 1,000 closed TCP ports. OS identification may be inconclusive on a localhost scan when the available port responses do not provide sufficient fingerprinting information.
+**Note:** OS detection on a localhost target may be limited and should not be treated as a definitive operating system fingerprint.
 
 **Screenshot:**
 
-![OS Detection](Screenshots/OS-Detection.png)
-
----
+![OS Detection](Screenshots/OS_Detection.png)
 
 ### 07. Saving Nmap Scan Results
 
 **Objective:** Save scan output for documentation and further analysis.
 
-**Commands:**
+**Command:**
+
 ```bash
-nmap -sV -oN ~/zenmap_local_scan.txt 127.0.0.1
-cat ~/zenmap_local_scan.txt
+nmap -sV -oN zenmap_local_scan.txt 127.0.0.1
 ```
 
 **Key Activities:**
-- Used the `-oN` option to save scan output in normal text format.
-- Stored the output in a text file.
-- Displayed the saved scan results using the `cat` command.
+- Used the `-oN` option to save output in normal text format.
+- Stored the scan results in a text file.
+- Preserved the output for further reference.
 
-**Output File:** `zenmap_local_scan.txt`
+**Output File:** [zenmap_local_scan.txt](zenmap_local_scan.txt)
 
-**Screenshot:**
+### 08. Network Topology Visualization
 
-![Saved Scan Results](Screenshots/Saved-Scan-Results.png)
+**Objective:** Explore the topology visualization available in Zenmap.
 
----
+**Key Activities:**
+- Opened the Topology tab in Zenmap.
+- Examined the localhost scan visualization.
+- Captured the topology and exported it as a PDF.
+
+**Output File:** [Network_Topology.pdf](Network_Topology.pdf)
+
+**Screenshot / Output:**
+
+![Network Topology](Screenshots/Network_Topology.png)
+
+## 🔹 Scope and Limitations
+
+The practical scanning was restricted to the local machine (`127.0.0.1`).
+
+Although the active Wi-Fi network configuration was examined, LAN-wide host discovery was not performed because authorization to scan other devices on the college network was not available.
+
+Therefore, the localhost scan results do not represent the total number of live devices or MAC addresses on the college network.
 
 ## 🔹 Key Learning Outcomes
 
 - Understanding network scanning and host discovery.
-- Exploring Zenmap's graphical interface and scan profiles.
-- Identifying TCP port states.
+- Exploring Nmap and Zenmap.
+- Identifying TCP port states and services.
 - Understanding service version detection.
 - Exploring operating system fingerprinting.
+- Examining local IP and MAC address information.
 - Saving and reviewing scan outputs.
-- Developing practical experience with Nmap in Kali Linux.
-
----
+- Understanding the limitations of localhost scanning.
 
 ## 🔹 Cybersecurity Relevance
 
 Network scanning is an important activity in network security assessment and vulnerability management.
 
-Security professionals use scanning tools to discover active hosts, examine exposed ports, identify services, and understand the network attack surface.
+Security professionals use tools such as Nmap to identify active hosts, examine exposed ports, detect running services, and understand the network attack surface.
 
-These exercises provided foundational practical experience with Nmap and Zenmap in a controlled local environment.
-
----
+This practical provided foundational experience with Nmap and Zenmap in a controlled local environment.
 
 ## 🔹 Official Resources
 
 - [Nmap Official Website](https://nmap.org/)
 - [Nmap Reference Guide](https://nmap.org/book/man.html)
 - [Zenmap Documentation](https://nmap.org/zenmap/)
-- [Kali Linux](https://www.kali.org/)
-
----
+- [Microsoft Windows](https://www.microsoft.com/windows)
 
 ## 🔹 Author
 
@@ -216,8 +224,6 @@ These exercises provided foundational practical experience with Nmap and Zenmap 
 
 B.Tech Mathematics and Computing Student
 
-[LinkedIn Profile](https://www.linkedin.com/)
+[LinkedIn Profile](YOUR_LINKEDIN_PROFILE_URL)
 
----
-
-*Continuously learning and building practical skills in cybersecurity, network scanning, and security analysis.*
+Continuously learning and building practical skills in cybersecurity, network scanning, and security analysis.
