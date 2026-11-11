@@ -167,7 +167,7 @@ nmap -sV -oN zenmap_local_scan.txt 127.0.0.1
 - Stored the scan results in a text file.
 - Preserved the output for further reference.
 
-**Output File:** [zenmap_local_scan.txt](zenmap_local_scan.txt)
+**Output File:** [zenmap_local_scan.txt](Screenshots/zenmap_local_scan.txt)
 
 ### 08. Network Topology Visualization
 
@@ -178,7 +178,7 @@ nmap -sV -oN zenmap_local_scan.txt 127.0.0.1
 - Examined the localhost scan visualization.
 - Captured the topology and exported it as a PDF.
 
-**Output File:** [Network_Topology.pdf](Network_Topology.pdf)
+**Output File:** [Network_Topology.pdf](Screenshots/Network_Topology.pdf)
 
 **Screenshot / Output:**
 
