@@ -3,7 +3,7 @@
 **• Web Footprinting • DNS Enumeration • WAF Detection • Network Scanning using Kali Linux, Windows, Nmap, and Zenmap**
 
 ---
-📄 **Final Project Report:** [View Report](Final-Report/NETWORKWALKS_W2Report.docx)
+📄 **Final Project Report:** [View Report](Final-Report/NETWORKWALKS_W2Report.pdf)
 
 ---
 
