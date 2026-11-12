@@ -36,7 +36,7 @@ The practical work was performed using a Windows system and a Kali Linux virtual
 
 **Lab Network:** `10.0.0.0/24`
 
-**Kali Linux IP Address:** `10.0.0.2/24`
+**Kali Linux IP Address:** `10.0.0.2`
 
 ## 🔹 Practical Exercises
 
@@ -53,7 +53,7 @@ The practical work was performed using a Windows system and a Kali Linux virtual
 
 **Screenshot:**
 
-![Zenmap Interface](Screenshots/Zenmap_Interface.png)
+![Zenmap Interface](Screenshots/Zenmap-Interface.png)
 
 ### 02. Kali Linux IP Configuration
 
@@ -102,7 +102,7 @@ Performed a Ping Scan against the loopback address to examine host availability 
 
 **Screenshot:**
 
-![Ping Scan](Screenshots/Ping_Scan.png)
+![Ping Scan](Screenshots/Ping-Scan.png)
 
 ### 04. Regular Scan – Network Scanning
 
@@ -116,7 +116,7 @@ Performed a Ping Scan against the loopback address to examine host availability 
 
 **Screenshot:**
 
-![Regular Scan](Screenshots/Regular_Scan.png)
+![Regular Scan](Screenshots/Regular-Scan.png)
 
 ### 05. Live Host Discovery – Subnet Scanning
 
