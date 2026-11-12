@@ -38,6 +38,8 @@ The practical work was performed using a Windows system and a Kali Linux virtual
 
 **Kali Linux IP Address:** `10.0.0.2`
 
+**Local Host:** `127.0.0.1`
+
 ## 🔹 Practical Exercises
 
 ### 01. Zenmap Installation and Interface Exploration
