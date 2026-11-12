@@ -18,8 +18,6 @@
 | **Permission Secured?** | Yes – activities were restricted to the documentation domain and the user's own controlled lab environment. |
 | **Phases Covered** | Phase 1: Reconnaissance & Footprinting |
 | | Phase 2: Scanning & Network Discovery |
-| | Phase 3–5: Not covered in this report |
-
 ---
 
 ## 1. Liability Disclaimer
