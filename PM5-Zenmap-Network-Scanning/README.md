@@ -1,37 +1,42 @@
 # 🌐 PM5 – Zenmap Network Scanning and Analysis
 
-**Host Discovery • TCP Port Scanning • Service Detection • OS Detection**
+**Host Discovery • TCP Port Scanning • Service Detection • MAC Address Identification • Network Topology Visualization**
 
 ## 🔹 Overview
 
-This project focuses on practical network scanning and analysis using **Nmap and Zenmap** on a Windows system.
+This project focuses on practical network scanning and analysis using **Nmap and Zenmap** in Windows and Kali Linux environments.
 
-The exercises explore host discovery, TCP port scanning, service version detection, operating system detection, and scan result analysis.
+The exercises cover Zenmap interface exploration, host discovery, TCP port scanning, service detection, operating system detection, IP configuration, MAC address identification, and network topology visualization.
 
-The practical scans were performed against the local machine using the loopback address `127.0.0.1` in a controlled environment.
+The practical work was performed using a Windows system and a Kali Linux virtual machine running in Oracle VirtualBox. For subnet-based host discovery, the Kali Linux VM was connected to an isolated VirtualBox lab network.
 
 ## 🔹 Objectives
 
 - Understand network scanning fundamentals.
 - Explore the Zenmap graphical interface.
-- Identify whether a host is reachable.
-- Examine TCP port states.
-- Perform service version detection.
-- Explore operating system fingerprinting.
-- Identify local network configuration and MAC address.
-- Save and analyze Nmap scan results.
-- Visualize the scan topology.
+- Identify local IP addresses and subnet configuration.
+- Discover live hosts within an authorized lab subnet.
+- Count the number of active hosts.
+- Identify the IP addresses of discovered hosts.
+- Examine MAC addresses using ARP-based discovery.
+- Explore TCP port scanning and service detection.
+- Understand operating system fingerprinting.
+- Generate and save network topology results.
 
 ## 🔹 Tools and Technologies
 
 | Tool | Purpose |
 |---|---|
-| Windows | Practical testing environment |
-| Nmap 7.99 | Network scanning and analysis |
-| Zenmap 7.99 | Graphical interface for Nmap |
-| Command Prompt | Network configuration and MAC address identification |
+| Windows | Initial Zenmap installation and network inspection |
+| Kali Linux | Network scanning and host discovery |
+| Oracle VirtualBox | Virtualized lab environment |
+| Nmap | Network scanning and host discovery |
+| Zenmap | Graphical interface for Nmap |
+| Terminal / Command Prompt | Executing commands and examining network configuration |
 
-**Scan Target:** `127.0.0.1` (Localhost)
+**Lab Network:** `10.0.0.0/24`
+
+**Kali Linux IP Address:** `10.0.0.2/24`
 
 ## 🔹 Practical Exercises
 
@@ -40,32 +45,50 @@ The practical scans were performed against the local machine using the loopback 
 **Objective:** Install Zenmap and explore its graphical interface and scanning profiles.
 
 **Key Activities:**
-- Installed and opened Zenmap on Windows.
+
+- Installed and launched Zenmap.
 - Explored the target field and scan profile selection.
 - Examined the scan command and output sections.
-- Explored available scanning profiles.
+- Explored the available scanning profiles.
 
 **Screenshot:**
 
-![Zenmap Interface](Screenshots/Zenmap_interface.png)
+![Zenmap Interface](Screenshots/Zenmap_Interface.png)
 
-### 02. Windows IP Configuration
+### 02. Kali Linux IP Configuration
 
-**Objective:** Identify the system's network configuration.
+**Objective:** Identify the local IP address and subnet configuration of the Kali Linux virtual machine.
+
+**Commands:**
+
+```bash
+ip -br -4 addr
+ip route
+```
 
 **Key Activities:**
-- Used `ipconfig` to examine network interfaces.
-- Identified the active Wi-Fi IPv4 address.
-- Examined the subnet mask and default gateway.
-- Identified the VirtualBox Host-Only network adapter.
+
+- Examined the available network interfaces.
+- Identified the IPv4 address assigned to `eth0`.
+- Examined the subnet mask and network route.
+- Identified the VirtualBox lab subnet.
+
+**Network Configuration:**
+
+| Parameter | Value |
+|---|---|
+| Network Interface | eth0 |
+| Kali IPv4 Address | 10.0.0.2 |
+| Subnet Mask | 255.255.255.0 |
+| Network Subnet | 10.0.0.0/24 |
 
 **Screenshot:**
 
-![Windows IP Configuration](Screenshots/Window_IP_Configuration.png)
+![Kali IP Configuration](Screenshots/Kali_IP_Configuration.png)
 
-### 03. Ping Scan – Host Discovery
+### 03. Ping Scan – Local Host Discovery
 
-**Objective:** Check whether the local host is active and reachable.
+**Objective:** Check the availability of the local machine using Nmap.
 
 **Command:**
 
@@ -75,148 +98,163 @@ nmap -sn 127.0.0.1
 
 **Observation:**
 
-The scan successfully identified the local machine as up.
+Performed a Ping Scan against the loopback address to examine host availability without conducting a port scan.
 
 **Screenshot:**
 
 ![Ping Scan](Screenshots/Ping_Scan.png)
 
-### 04. MAC Address Identification
+### 04. Regular Scan – Network Scanning
 
-**Objective:** Identify the MAC addresses of the system's network adapters.
-
-**Command:**
-
-```cmd
-getmac /v
-```
+**Objective:** Explore the Regular Scan profile in Zenmap and examine the scanning output.
 
 **Key Activities:**
-- Examined the available network adapters.
-- Identified the physical address associated with the active Wi-Fi adapter.
-- Observed the VirtualBox Host-Only adapter's MAC address.
+
+- Selected the Regular Scan profile in Zenmap.
+- Examined the generated Nmap command.
+- Observed the scan output and port information.
 
 **Screenshot:**
 
-![MAC Address](Screenshots/MAC_Address.png)
+![Regular Scan](Screenshots/Regular_Scan.png)
 
-*Note: These are the local system's adapter addresses, not MAC addresses discovered from other LAN hosts.*
+### 05. Live Host Discovery – Subnet Scanning
 
-### 05. Service Version Detection
-
-**Objective:** Identify services and their version information on open TCP ports.
+**Objective:** Discover active hosts within the authorized VirtualBox lab subnet.
 
 **Command:**
 
 ```bash
-nmap -sV 127.0.0.1
+sudo nmap -sn 10.0.0.0/24
 ```
+
+**Explanation:**
+
+- `sudo` – Executes Nmap with elevated privileges.
+- `nmap` – Network scanning utility.
+- `-sn` – Performs host discovery without port scanning.
+- `10.0.0.0/24` – Specifies the VirtualBox lab subnet.
 
 **Observation:**
 
-The scan identified the following open TCP ports and services:
-
-| Port | Service | Detected Version |
-|---|---|---|
-| 80/tcp | HTTP | Microsoft IIS httpd 10.0 |
-| 135/tcp | MSRPC | Microsoft Windows RPC |
-| 445/tcp | Microsoft-DS | Version not identified |
-| 843/tcp | Unknown | Version not identified |
-| 3306/tcp | MySQL | MySQL 8.0.43 |
-| 5432/tcp | PostgreSQL | PostgreSQL DB |
-
-The scan also reported 994 closed TCP ports.
+The scan identified two live hosts within the configured lab subnet.
 
 **Screenshot:**
 
-![Service Detection](Screenshots/Service_Detection.png)
+![Live Host Discovery](Screenshots/Live_Host_Discovery.png)
 
-### 06. Operating System Detection
+### 06. Live Host Count and IP Address Identification
 
-**Objective:** Explore operating system fingerprinting using Nmap.
+**Objective:** Count the discovered live hosts and record their IP addresses.
+
+**Scan Results:**
+
+The Nmap summary reported:
+
+```text
+Nmap done: 256 IP addresses (2 hosts up)
+```
+
+**Discovered Hosts:**
+
+| Host | IP Address |
+|---|---|
+| Host 1 | 10.0.0.1 |
+| Host 2 | 10.0.0.2 |
+
+**Total Live Hosts:** 2
+
+**Screenshot:**
+
+![Live Host IP Addresses](Screenshots/Live_Host_IP_Addresses.png)
+
+### 07. MAC Address Identification
+
+**Objective:** Identify the MAC addresses associated with the discovered hosts.
 
 **Command:**
 
 ```bash
-nmap -O 127.0.0.1
+sudo nmap -sn -PR 10.0.0.0/24
 ```
 
-**Key Activities:**
-- Used the `-O` option to enable OS detection.
-- Examined the host status and port information.
-- Explored Nmap's operating system fingerprinting capability.
+**Explanation:**
 
-**Note:** OS detection on a localhost target may be limited and should not be treated as a definitive operating system fingerprint.
+The `-PR` option performs ARP-based host discovery on the local Ethernet network. Nmap can display MAC address information for discovered hosts.
+
+**Key Activities:**
+
+- Performed ARP-based host discovery.
+- Examined the MAC address information in the Nmap output.
+- Associated the displayed MAC addresses with their corresponding IP addresses.
 
 **Screenshot:**
 
-![OS Detection](Screenshots/OS_Detection.png)
-
-### 07. Saving Nmap Scan Results
-
-**Objective:** Save scan output for documentation and further analysis.
-
-**Command:**
-
-```bash
-nmap -sV -oN zenmap_local_scan.txt 127.0.0.1
-```
-
-**Key Activities:**
-- Used the `-oN` option to save output in normal text format.
-- Stored the scan results in a text file.
-- Preserved the output for further reference.
-
-**Output File:** [zenmap_local_scan.txt](Screenshots/zenmap_local_scan.txt)
+![Live Host MAC Addresses](Screenshots/Live_Host_MAC_Addresses.png)
 
 ### 08. Network Topology Visualization
 
-**Objective:** Explore the topology visualization available in Zenmap.
+**Objective:** Visualize the discovered network hosts using Zenmap and save the topology in PDF format.
 
 **Key Activities:**
-- Opened the Topology tab in Zenmap.
-- Examined the localhost scan visualization.
-- Captured the topology and exported it as a PDF.
 
-**Output File:** [Network_Topology.pdf](Screenshots/Network_Topology.pdf)
+- Generated an XML scan result using Nmap.
+- Opened the XML scan file in Zenmap.
+- Examined the discovered hosts in the Hosts tab.
+- Explored the Topology tab to visualize the network.
+- Captured the topology and saved it as a PDF document.
 
-**Screenshot / Output:**
+**XML Generation Command:**
+
+```bash
+sudo nmap -sn -oX ~/kali_lab_topology.xml 10.0.0.0/24
+```
+
+**Output Files:**
+
+- [kali_lab_topology.xml](kali_lab_topology.xml)
+- [Network_Topology.pdf](Network_Topology.pdf)
+
+**Topology Screenshot:**
 
 ![Network Topology](Screenshots/Network_Topology.png)
 
 ## 🔹 Scope and Limitations
 
-The practical scanning was restricted to the local machine (`127.0.0.1`).
-
-Although the active Wi-Fi network configuration was examined, LAN-wide host discovery was not performed because authorization to scan other devices on the college network was not available.
-
-Therefore, the localhost scan results do not represent the total number of live devices or MAC addresses on the college network.
+- Network discovery was performed within the configured VirtualBox lab subnet (`10.0.0.0/24`).
+- The scan identified two live hosts: `10.0.0.1` and `10.0.0.2`.
+- The MAC address information was examined using ARP-based discovery.
+- The college Wi-Fi network was not scanned because authorization to scan other devices was not available.
+- Host discovery results represent the configured virtual lab environment and not the entire college network.
 
 ## 🔹 Key Learning Outcomes
 
-- Understanding network scanning and host discovery.
+- Understanding network scanning fundamentals.
 - Exploring Nmap and Zenmap.
-- Identifying TCP port states and services.
-- Understanding service version detection.
-- Exploring operating system fingerprinting.
-- Examining local IP and MAC address information.
-- Saving and reviewing scan outputs.
-- Understanding the limitations of localhost scanning.
+- Identifying local IP addresses and subnet configurations.
+- Performing host discovery using Nmap.
+- Counting active hosts and recording their IP addresses.
+- Examining MAC addresses through ARP-based discovery.
+- Understanding TCP port scanning and scanning profiles.
+- Exploring service detection and network analysis.
+- Generating XML scan results.
+- Visualizing network topology and exporting it as a PDF.
 
 ## 🔹 Cybersecurity Relevance
 
-Network scanning is an important activity in network security assessment and vulnerability management.
+Network scanning is an important activity in network security assessment, network administration, and vulnerability management.
 
-Security professionals use tools such as Nmap to identify active hosts, examine exposed ports, detect running services, and understand the network attack surface.
+Security professionals use tools such as Nmap and Zenmap to identify active hosts, examine exposed ports, detect running services, and understand network infrastructure.
 
-This practical provided foundational experience with Nmap and Zenmap in a controlled local environment.
+This practical provided hands-on experience with host discovery, subnet analysis, MAC address identification, and network topology visualization in a controlled virtual lab environment.
 
 ## 🔹 Official Resources
 
 - [Nmap Official Website](https://nmap.org/)
 - [Nmap Reference Guide](https://nmap.org/book/man.html)
 - [Zenmap Documentation](https://nmap.org/zenmap/)
-- [Microsoft Windows](https://www.microsoft.com/windows)
+- [Kali Linux Official Website](https://www.kali.org/)
+- [Oracle VirtualBox](https://www.virtualbox.org/)
 
 ## 🔹 Author
 
