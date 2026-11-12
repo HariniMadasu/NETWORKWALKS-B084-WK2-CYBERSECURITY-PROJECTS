@@ -356,7 +356,7 @@ The screenshots and output files collected during the practical activities are o
 5. Wafw00f output – `Wafw00f.png`
 6. DNSRecon output – `DNSRecon.png`
 
-[View PM1 Project and Screenshots](PM1-Footprinting-Information-Gathering/README.md)
+[View PM1 Project and Screenshots](PM1-Footprinting/README.md)
 
 **PM5 – Network Scanning with Zenmap**
 
